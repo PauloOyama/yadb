@@ -1,7 +1,8 @@
 package main
 
 import (
-	"log"
+	"fmt"
+	"os"
 
 	"github.com/agstrc/yadb/internal/interaction"
 	"github.com/bwmarrin/discordgo"
@@ -14,7 +15,8 @@ func registerSlashCommands(session *discordgo.Session) {
 
 		// if a command fails to register, the bot will not be "complete". Therefore, we panic
 		if err != nil {
-			log.Panicln("Failed to register a slash command:", err.Error())
+			fmt.Fprintln(os.Stderr, "Failed to register a slash command:", err.Error())
+			os.Exit(1)
 		}
 	}
 }
@@ -23,13 +25,14 @@ func registerSlashCommands(session *discordgo.Session) {
 func deleteSlashCommands(session *discordgo.Session) {
 	commands, err := session.ApplicationCommands(session.State.User.ID, "")
 	if err != nil {
-		log.Panicln("Failed to delete slash commands:", err.Error())
+		fmt.Fprintln(os.Stderr, "Failed to acquire commands list during deletion:", err.Error())
+		os.Exit(1)
 	}
 
 	for _, command := range commands {
 		err := session.ApplicationCommandDelete(session.State.User.ID, "", command.ID)
 		if err != nil {
-			log.Printf("Failed to delete command %s: %s", command.Name, err.Error())
+			fmt.Printf("Failed to delete command %s: %s", command.Name, err.Error())
 		}
 	}
 }
@@ -37,6 +40,6 @@ func deleteSlashCommands(session *discordgo.Session) {
 // handleReady prints a message once the bot is ready
 func handleReady(s *discordgo.Session) {
 	s.AddHandler(func(s *discordgo.Session, r *discordgo.Ready) {
-		log.Println("Bot is ready!")
+		fmt.Println("Bot is ready to go!")
 	})
 }
