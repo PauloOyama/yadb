@@ -1,12 +1,5 @@
 package main
 
-<<<<<<< HEAD
-import "github.com/agstrc/yadb/internal/setup"
-
-func main() {
-	app := setup.App()
-	app.Listen("0.0.0.0:8000")
-=======
 import (
 	"flag"
 	"fmt"
@@ -34,6 +27,7 @@ func main() {
 
 // runBot enables the bot's processing of requests
 func runBot() {
+	fmt.Println(util.GetEnv("BOT_TOKEN"))
 	session, err := discordgo.New("Bot " + util.GetEnv("BOT_TOKEN"))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
@@ -57,6 +51,7 @@ func runBot() {
 
 // upbdateBot deletes all the bot's slash commands and registers the commands set in interactions package
 func updateBot() {
+
 	session, err := discordgo.New("Bot " + util.GetEnv("BOT_TOKEN"))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
@@ -71,5 +66,4 @@ func updateBot() {
 	deleteSlashCommands(session)
 	fmt.Println("Registering slash commands...")
 	registerSlashCommands(session)
->>>>>>> 481e639a3bd5ad5e1ac31f20fac73de68252a27f
 }
