@@ -14,12 +14,25 @@ var SlashCommands = []discordgo.ApplicationCommand{
 		Name:        "random-manga",
 		Description: "Returns a random manga",
 	},
+	{
+		Name:        "get-manga",
+		Description: "Return the desired manga",
+		Options: []*discordgo.ApplicationCommandOption{
+			{
+				Type:        discordgo.ApplicationCommandOptionString,
+				Name:        "string-option",
+				Description: "String option",
+				Required:    true,
+			},
+		},
+	},
 }
 
 // commandHandlers maps a command name to an appropriate handler
 var commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
 	"lofi":         lofiCommand,
 	"random-manga": randomManga,
+	"get-manga":    getManga,
 }
 
 // InteractionHandler handles "Interaction Create" events. It only recognizes events listed on the SlashCommands
