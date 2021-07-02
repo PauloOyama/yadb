@@ -17,9 +17,9 @@ var SlashCommands = []dg.ApplicationCommand{
 	{
 		Name:        "get-manga",
 		Description: "Return the desired manga",
-		Options: []*discordgo.ApplicationCommandOption{
+		Options: []*dg.ApplicationCommandOption{
 			{
-				Type:        discordgo.ApplicationCommandOptionString,
+				Type:        dg.ApplicationCommandOptionString,
 				Name:        "string-option",
 				Description: "String option",
 				Required:    true,

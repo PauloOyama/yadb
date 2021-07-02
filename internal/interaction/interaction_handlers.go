@@ -32,16 +32,16 @@ func randomManga(s *dg.Session, i *dg.InteractionCreate) {
 }
 
 // getManga return the desired manga
-func getManga(s *discordgo.Session, i *discordgo.InteractionCreate) {
+func getManga(s *dg.Session, i *dg.InteractionCreate) {
 
 	embeds, err := dex.GetMangaReader(i.Data.Options[0].StringValue())
 	if err != nil {
 		ephemeralReply(s, i.Interaction, internalError)
 		return
 	}
-	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-		Type: discordgo.InteractionResponseChannelMessageWithSource,
-		Data: &discordgo.InteractionApplicationCommandResponseData{
+	s.InteractionRespond(i.Interaction, &dg.InteractionResponse{
+		Type: dg.InteractionResponseChannelMessageWithSource,
+		Data: &dg.InteractionApplicationCommandResponseData{
 			Embeds: embeds,
 		},
 	})
