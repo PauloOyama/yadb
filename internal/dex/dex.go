@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/agstrc/yadb/internal/util"
-	"github.com/bwmarrin/discordgo"
+	dg "github.com/bwmarrin/discordgo"
 )
 
 // RandomManga represents the JSON returned by MangaDex on its `/manga/random` endpoint
@@ -218,9 +218,9 @@ func getCoverImage(coverId string) (string, error) {
 	return response.Data.Attributes.FileName, nil
 }
 
-// GetRandom returns a slice of *discordgo.MessageEmbed with information about a random Manga acquired from the
+// GetRandom returns a slice of *dg.MessageEmbed with information about a random Manga acquired from the
 // MangaDex API
-func GetRandom() ([]*discordgo.MessageEmbed, error) {
+func GetRandom() ([]*dg.MessageEmbed, error) {
 	var response RandomManga
 	var autorID string
 	var coverID string
@@ -269,26 +269,25 @@ func GetRandom() ([]*discordgo.MessageEmbed, error) {
 		fileName = ""
 	}
 
-	fmt.Println("https://uploads.mangadex.org/covers/" + response.Data.ID + "/" + fileName + ".512.jpg")
-	return []*discordgo.MessageEmbed{
+	return []*dg.MessageEmbed{
 		{
 			URL:         "https://mangadex.org/title/" + response.Data.ID,
 			Title:       response.Data.Attributes.Title.En,
 			Description: response.Data.Attributes.Description.En,
-			Image: &discordgo.MessageEmbedImage{
+			Image: &dg.MessageEmbedImage{
 				URL: "https://uploads.mangadex.org/covers/" + response.Data.ID + "/" + fileName + ".512.jpg",
 			},
-			Author: &discordgo.MessageEmbedAuthor{
+			Author: &dg.MessageEmbedAuthor{
 				Name: autorName,
 			},
 		},
 	}, nil
 }
 
-//GetMangaReader receives the string received from the slashCommand ´get-manga´ and search this title 
-//using MangaDex API, this function return a []*discordgo.MessageEmbed with the response value and an error.
-//Important: If the title searched is not found the API will return an empty response 
-func GetMangaReader(title string) ([]*discordgo.MessageEmbed, error) {
+//GetMangaReader receives the string received from the slashCommand ´get-manga´ and search this title
+//using MangaDex API, this function return a []*dg.MessageEmbed with the response value and an error.
+//Important: If the title searched is not found the API will return an empty response
+func GetMangaReader(title string) ([]*dg.MessageEmbed, error) {
 
 	var client http.Client
 	var response getSearchManga
@@ -329,18 +328,18 @@ func GetMangaReader(title string) ([]*discordgo.MessageEmbed, error) {
 	}
 
 	if len(response.Results) == 0 {
-		return []*discordgo.MessageEmbed{
+		return []*dg.MessageEmbed{
 			{
 				Title:       "Manga não encontrado",
 				Description: "O Mangá solicitado não pode ser encontrado, verifique se o nome do mangá está correto!",
-				Image: &discordgo.MessageEmbedImage{
+				Image: &dg.MessageEmbedImage{
 					URL: "https://blog.golang.org/5years/gophers5th.jpg",
 				},
 			},
 		}, nil
 	}
 
-	//For now, it only return the first value of the list in the response.Results, it seems that the function 
+	//For now, it only return the first value of the list in the response.Results, it seems that the function
 	//append causes some misunderstanding in the return function
 
 	for _, s := range response.Results[0].Relationships {
@@ -368,15 +367,15 @@ func GetMangaReader(title string) ([]*discordgo.MessageEmbed, error) {
 		fileName = ""
 	}
 
-	result := []*discordgo.MessageEmbed{
+	result := []*dg.MessageEmbed{
 		{
 
 			Title:       response.Results[0].Data.Attributes.Title.En,
 			Description: response.Results[0].Data.Attributes.Description.En,
-			Image: &discordgo.MessageEmbedImage{
+			Image: &dg.MessageEmbedImage{
 				URL: "https://uploads.mangadex.org/covers/" + response.Results[0].Data.ID + "/" + fileName + ".512.jpg",
 			},
-			Author: &discordgo.MessageEmbedAuthor{
+			Author: &dg.MessageEmbedAuthor{
 				Name: autorName,
 			},
 		},
@@ -386,13 +385,13 @@ func GetMangaReader(title string) ([]*discordgo.MessageEmbed, error) {
 
 	// 	fmt.Println(s.Data.Attributes.Title.En)
 
-	// 	part := &discordgo.MessageEmbed{
+	// 	part := &dg.MessageEmbed{
 	// 		Title:       s.Data.Attributes.Title.En,
 	// 		Description: s.Data.Attributes.Description.En,
-	// 		Image: &discordgo.MessageEmbedImage{
+	// 		Image: &dg.MessageEmbedImage{
 	// 			URL: "https://uploads.mangadex.org/covers/" + response.Results[0].Data.ID + "/" + fileName + ".512.jpg",
 	// 		},
-	// 		Author: &discordgo.MessageEmbedAuthor{
+	// 		Author: &dg.MessageEmbedAuthor{
 	// 			Name: autorName,
 	// 		},
 	// 	}
