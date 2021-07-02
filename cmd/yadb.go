@@ -27,7 +27,6 @@ func main() {
 
 // runBot enables the bot's processing of requests
 func runBot() {
-	fmt.Println(util.GetEnv("BOT_TOKEN"))
 	session, err := discordgo.New("Bot " + util.GetEnv("BOT_TOKEN"))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())

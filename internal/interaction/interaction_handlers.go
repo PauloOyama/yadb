@@ -1,7 +1,7 @@
 package interaction
 
 import (
-	"github.com/agstrc/yadb/internal/service"
+	"github.com/agstrc/yadb/internal/dex"
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -18,10 +18,15 @@ func lofiCommand(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 // randomManga return a manga from mangaDex API
 func randomManga(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	embeds, err := dex.GetRandom()
+	if err != nil {
+		ephemeralReply(s, i.Interaction, internalError)
+		return
+	}
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionApplicationCommandResponseData{
-			Embeds: service.GetRadom(),	
+			Embeds: embeds,
 		},
 	})
 }

@@ -11,7 +11,7 @@ import (
 // registerSlashCommands registers all slash commands defined by the interaction package
 func registerSlashCommands(session *discordgo.Session) {
 	for _, command := range interaction.SlashCommands {
-		_, err := session.ApplicationCommandCreate(session.State.User.ID, "", &command)
+		_, err := session.ApplicationCommandCreate(session.State.User.ID, "841085532385968169", &command)
 
 		// if a command fails to register, the bot will not be "complete". Therefore, we panic
 		if err != nil {
@@ -30,7 +30,7 @@ func deleteSlashCommands(session *discordgo.Session) {
 	}
 
 	for _, command := range commands {
-		err := session.ApplicationCommandDelete(session.State.User.ID, "", command.ID)
+		err := session.ApplicationCommandDelete(session.State.User.ID, "ODU4MTM5NjIzNTA3MDk5NjYw.YNZyzQ.FTK2K3rI_gFxggbtvT9XM09Txdw", command.ID)
 		if err != nil {
 			fmt.Printf("Failed to delete command %s: %s", command.Name, err.Error())
 		}

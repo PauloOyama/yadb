@@ -6,4 +6,4 @@ set -a
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit
 source .env
-exec go run cmd/*.go
+exec go run cmd/*.go "$@"
