@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/agstrc/yadb/internal/util"
-	"github.com/bwmarrin/discordgo"
+	dg "github.com/bwmarrin/discordgo"
 )
 
 // RandomManga represents the JSON returned by MangaDex on its `/manga/random` endpoint
@@ -62,7 +62,7 @@ type RandomManga struct {
 
 // GetRandom returns a slice of *discordgo.MessageEmbed with information about a random Manga acquired from the
 // MangaDex API
-func GetRandom() ([]*discordgo.MessageEmbed, error) {
+func GetRandom() ([]*dg.MessageEmbed, error) {
 	var response RandomManga
 
 	resp, err := http.Get(util.BaseUrl + "/manga/random")
@@ -84,7 +84,7 @@ func GetRandom() ([]*discordgo.MessageEmbed, error) {
 		return nil, fmt.Errorf("failed to unmarshal the response body: %w", err)
 	}
 
-	return []*discordgo.MessageEmbed{
+	return []*dg.MessageEmbed{
 		{
 			Title:       response.Data.Attributes.Title.En,
 			Description: response.Data.Attributes.Description.En,
