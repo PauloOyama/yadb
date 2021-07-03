@@ -31,7 +31,7 @@ func randomManga(s *dg.Session, i *dg.InteractionCreate) {
 	})
 }
 
-// getManga return the desired manga
+// getManga returns the desired manga
 func getManga(s *dg.Session, i *dg.InteractionCreate) {
 
 	embeds, err := dex.GetMangaReader(i.Data.Options[0].StringValue())
